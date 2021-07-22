@@ -1,0 +1,1 @@
+# Micro serviço desenvolvido com .NET Core e RabbitMQ
