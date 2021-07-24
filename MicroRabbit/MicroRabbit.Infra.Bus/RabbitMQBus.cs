@@ -7,6 +7,7 @@ using MediatR;
 using MicroRabbit.Domain.Core.Bus;
 using MicroRabbit.Domain.Core.Commands;
 using MicroRabbit.Domain.Core.Events;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -16,12 +17,14 @@ namespace MicroRabbit.Infra.Bus
     public sealed class RabbitMQBus : IEventBus
     {
         private readonly IMediator _mediator;
+        private readonly ILogger<RabbitMQBus> _logger;
         private readonly Dictionary<string, List<Type>> _handlers;
         private readonly List<Type> _eventTypes;
 
-        public RabbitMQBus(IMediator mediator)
+        public RabbitMQBus(IMediator mediator, ILogger<RabbitMQBus> logger)
         {
             _mediator = mediator;
+            _logger = logger;
             _handlers = new Dictionary<string, List<Type>>();
             _eventTypes = new List<Type>();
         }
@@ -113,6 +116,7 @@ namespace MicroRabbit.Infra.Bus
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Fail on process event {eventName}: {ex}");
             }
         }
 
