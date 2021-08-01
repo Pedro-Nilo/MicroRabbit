@@ -26,8 +26,7 @@ namespace MicroRabbit.Banking.Api
             services.AddDbContext<BankingDbContext>(options =>
             {
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("BankingDbConnection"),
-                    b => b.MigrationsAssembly("MicroRabbit.Banking.Api"));
+                    Configuration.GetConnectionString("BankingDbConnection"));
             });
 
             services.AddControllers();
